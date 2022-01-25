@@ -27,7 +27,17 @@ class Start extends Component {
               value={this.state.name}
               placeholder="Enter your name"
             />
+            <View style={styles.container}>
+              <Text>Choose a background color:</Text>
+              <View style={styles.colorChoices}>
+                <View style={[styles.color, styles.color1]} />
+                <View style={[styles.color, styles.color2]} />
+                <View style={[styles.color, styles.color3]} />
+                <View style={[styles.color, styles.color4]} />
+              </View>
+            </View>
             <Button
+              style={styles.goToChatBtn}
               title="Go to Chat"
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
@@ -69,14 +79,43 @@ const styles = StyleSheet.create({
     width: "88%",
     height: "44%",
     alignItems: "center",
-    padding: 5,
+    padding: 20,
     alignSelf: "auto",
-    marginBottom: "6%"
+    marginBottom: "6%",
   },
   container: {
     flex: 1,
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "flex-start",
+  },
+  colorChoices: {
+    width: '88%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  color: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  color1: {
+    backgroundColor: "#090C08",
+  },
+  color2: {
+    backgroundColor: "#474056",
+  },
+  color3: {
+    backgroundColor: "#8A95A5",
+  },
+  color4: {
+    backgroundColor: "#B9C6AE",
+  },
+  goToChatBtn: {
+    height: 80,
+    fontSize: 16,
+    fontWeight: "600",
+    backgroundColor: "#757083",
+    flex: 1
   },
 });
 
