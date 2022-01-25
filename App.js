@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import "react-native-gesture-handler";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Chat from "./components/Chat";
@@ -17,7 +17,7 @@ export default class App extends Component {
 
   render() {
     return (
-        <NavigationContainer>
+        <NavigationContainer style={styles.container}>
           <StatusBar />
           <Stack.Navigator initialRouteName="Start">
             <Stack.Screen name="Start" component={Start} />
