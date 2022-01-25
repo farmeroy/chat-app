@@ -18,6 +18,7 @@ export default class App extends Component {
   render() {
     return (
         <NavigationContainer>
+          <StatusBar />
           <Stack.Navigator initialRouteName="Start">
             <Stack.Screen name="Start" component={Start} />
             <Stack.Screen name="Chat" component={Chat} />
