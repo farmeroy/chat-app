@@ -3,11 +3,18 @@ import {
   TextInput,
   View,
   Text,
-  Button,
   StyleSheet,
   ImageBackground,
+  Button
 } from "react-native";
+import ColorBtn from "./ColorBtn";
 import image from "../assets/images/Background-Image.png";
+
+const color1 ="#090C08";
+const color2 = "#474056";
+const color3 = "#8A95A5";
+const color4 = "#B9C6AE";
+
 
 class Start extends Component {
   constructor(props) {
@@ -33,34 +40,26 @@ class Start extends Component {
             <View style={styles.container}>
               <Text>Choose a background color:</Text>
               <View style={styles.colorChoices}>
-                <View style={[styles.color, styles.color1]}>
-                  <Button
-                    title=""
-                    style={styles.colorBtn}
-                    onPress={() => this.setState({ chatColor: "#090C08" })}
-                  />
-                </View>
-                <View style={[styles.color, styles.color2]}>
-                  <Button
-                    title=""
-                    style={styles.colorBtn}
-                    onPress={() => this.setState({ chatColor: "#474056" })}
-                  />
-                </View>
-                <View style={[styles.color, styles.color3]}>
-                  <Button
-                    title=""
-                    style={styles.colorBtn}
-                    onPress={() => this.setState({ chatColor: "#8A95A5" })}
-                  />
-                </View>
-                <View style={[styles.color, styles.color4]}>
-                  <Button
-                    title=""
-                    style={styles.colorBtn}
-                    onPress={() => this.setState({ chatColor: "#B9C6AE" })}
-                  />
-                </View>
+                <ColorBtn
+                  title=""
+                  color={color1}
+                  onPress={() => this.setState({ chatColor: color1 })}
+                />
+                <ColorBtn
+                  title=""
+                  color={color2} 
+                  onPress={() => this.setState({ chatColor: color2 })}
+                />
+                <ColorBtn
+                  title=""
+                  color={color3}
+                  onPress={() => this.setState({ chatColor: color3 })}
+                />
+                <ColorBtn
+                  title=""
+                  color={color4}
+                  onPress={() => this.setState({ chatColor: color4 })}
+                />
               </View>
             </View>
             <Button
@@ -146,8 +145,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    backgroundColor: 'transparent'
-  }
+    backgroundColor: "transparent",
+  },
 });
 
 export default Start;
