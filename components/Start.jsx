@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Image,
 } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
 import ColorBtn from "./ColorBtn";
 import StartBtn from "./StartBtn";
 import image from "../assets/images/Background-Image.png";
@@ -33,7 +34,7 @@ class Start extends Component {
           <Text style={styles.titleText}>Chat App</Text>
           <View style={styles.box}>
             <View style={styles.inputBox}>
-              <Image source={icon} style={styles.userIcon}/>
+              <Icon name="user" size={30} color="#888" style={styles.userIcon}/>
               <TextInput
                 style={styles.textInput}
                 onChangeText={(name) => this.setState({ name })}
@@ -84,16 +85,21 @@ class Start extends Component {
 
 const styles = StyleSheet.create({
   textInput: {
+    flex: 6,
     fontSize: 16,
     fontWeight: "300",
     color: "#757083",
   },
   userIcon:{
-        height: 20,
-        width: 20,
+    flex: 1,
+    padding: 12,
+    opacity: .50,
+
     },
   inputBox: {
     height: 60,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
     borderColor: "gray",
     borderWidth: 1,
     width: "100%",
@@ -114,6 +120,7 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
+    flexShrink: 0,
     padding: "6%",
     backgroundColor: "#fff",
     width: "88%",
@@ -122,14 +129,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignSelf: "auto",
     marginBottom: "6%",
+    minHeight: 260,
+    maxHeight: 300,
   },
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "flex-start",
+    flexShrink: 0
   },
   colorChoices: {
     width: "88%",
+    flexShrink: 0,
     flexDirection: "row",
     justifyContent: "space-between",
   },
