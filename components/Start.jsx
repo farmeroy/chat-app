@@ -39,7 +39,7 @@ class Start extends Component {
               placeholder="Enter your name"
             />
             <View style={styles.container}>
-              <Text>Choose a background color:</Text>
+              <Text style={styles.colorsText}>Choose a background color:</Text>
               <View style={styles.colorChoices}>
                 <ColorBtn
                   title=""
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderColor: "gray",
     borderWidth: 1,
-    width: "88%",
+    width: "100%",
   },
   image: {
     flex: 1,
@@ -102,14 +102,14 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
+    padding: '6%',
     backgroundColor: "#fff",
     width: "88%",
     height: "44%",
     alignItems: "center",
     justifyContent: 'space-evenly',
     alignSelf: "auto",
-    paddingBottom: "6%",
-    paddingTop: '6%'
+    marginBottom: '6%'
   },
   container: {
     flex: 1,
@@ -120,8 +120,14 @@ const styles = StyleSheet.create({
     width: "88%",
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: '6%'
   },
+  colorsText: {
+    paddingBottom: 10,
+    fontSize: 16,
+    fontWeight: '300',
+    color: '#757083'
+
+  }
  });
 
 export default Start;
