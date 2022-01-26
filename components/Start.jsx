@@ -5,24 +5,24 @@ import {
   Text,
   StyleSheet,
   ImageBackground,
-  Button
+  Image,
 } from "react-native";
 import ColorBtn from "./ColorBtn";
-import StartBtn from './StartBtn';
+import StartBtn from "./StartBtn";
 import image from "../assets/images/Background-Image.png";
+const icon = require('../assets/icon.svg');
 
-const color1 ="#090C08";
+const color1 = "#090C08";
 const color2 = "#474056";
 const color3 = "#8A95A5";
 const color4 = "#B9C6AE";
-
 
 class Start extends Component {
   constructor(props) {
     super(props);
     this.state = {
       name: "",
-      chatColor: "#fff",
+      chatColor: color4,
     };
   }
 
@@ -32,12 +32,15 @@ class Start extends Component {
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <Text style={styles.titleText}>Chat App</Text>
           <View style={styles.box}>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(name) => this.setState({ name })}
-              value={this.state.name}
-              placeholder="Enter your name"
-            />
+            <View style={styles.inputBox}>
+              <Image source={icon} style={styles.userIcon}/>
+              <TextInput
+                style={styles.textInput}
+                onChangeText={(name) => this.setState({ name })}
+                value={this.state.name}
+                placeholder="Your Name"
+              />
+            </View>
             <View style={styles.container}>
               <Text style={styles.colorsText}>Choose a background color:</Text>
               <View style={styles.colorChoices}>
@@ -48,7 +51,7 @@ class Start extends Component {
                 />
                 <ColorBtn
                   title=""
-                  color={color2} 
+                  color={color2}
                   onPress={() => this.setState({ chatColor: color2 })}
                 />
                 <ColorBtn
@@ -81,6 +84,15 @@ class Start extends Component {
 
 const styles = StyleSheet.create({
   textInput: {
+    fontSize: 16,
+    fontWeight: "300",
+    color: "#757083",
+  },
+  userIcon:{
+        height: 20,
+        width: 20,
+    },
+  inputBox: {
     height: 60,
     borderColor: "gray",
     borderWidth: 1,
@@ -102,14 +114,14 @@ const styles = StyleSheet.create({
   },
   box: {
     flex: 1,
-    padding: '6%',
+    padding: "6%",
     backgroundColor: "#fff",
     width: "88%",
     height: "44%",
     alignItems: "center",
-    justifyContent: 'space-evenly',
+    justifyContent: "space-between",
     alignSelf: "auto",
-    marginBottom: '6%'
+    marginBottom: "6%",
   },
   container: {
     flex: 1,
@@ -124,10 +136,9 @@ const styles = StyleSheet.create({
   colorsText: {
     paddingBottom: 10,
     fontSize: 16,
-    fontWeight: '300',
-    color: '#757083'
-
-  }
- });
+    fontWeight: "300",
+    color: "#757083",
+  },
+});
 
 export default Start;
