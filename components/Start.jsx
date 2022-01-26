@@ -81,7 +81,7 @@ class Start extends Component {
 
 const styles = StyleSheet.create({
   textInput: {
-    height: 40,
+    height: 60,
     borderColor: "gray",
     borderWidth: 1,
     width: "88%",
@@ -106,9 +106,10 @@ const styles = StyleSheet.create({
     width: "88%",
     height: "44%",
     alignItems: "center",
-    padding: 20,
+    justifyContent: 'space-evenly',
     alignSelf: "auto",
-    marginBottom: "6%",
+    paddingBottom: "6%",
+    paddingTop: '6%'
   },
   container: {
     flex: 1,
@@ -119,6 +120,7 @@ const styles = StyleSheet.create({
     width: "88%",
     flexDirection: "row",
     justifyContent: "space-between",
+    padding: '6%'
   },
  });
 
