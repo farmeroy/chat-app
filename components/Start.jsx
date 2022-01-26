@@ -8,6 +8,7 @@ import {
   Button
 } from "react-native";
 import ColorBtn from "./ColorBtn";
+import StartBtn from './StartBtn';
 import image from "../assets/images/Background-Image.png";
 
 const color1 ="#090C08";
@@ -62,9 +63,8 @@ class Start extends Component {
                 />
               </View>
             </View>
-            <Button
-              style={styles.goToChatBtn}
-              title="Go to Chat"
+            <StartBtn
+              title="Start Chatting"
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
                   name: this.state.name,
@@ -120,33 +120,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  color: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  color1: {
-    backgroundColor: "#090C08",
-  },
-  color2: {
-    backgroundColor: "#474056",
-  },
-  color3: {
-    backgroundColor: "#8A95A5",
-  },
-  color4: {
-    backgroundColor: "#B9C6AE",
-  },
-  goToChatBtn: {
-    height: 80,
-    fontSize: 16,
-    fontWeight: "600",
-    backgroundColor: "#757083",
-    flex: 1,
-  },
-  button: {
-    backgroundColor: "transparent",
-  },
-});
+ });
 
 export default Start;
