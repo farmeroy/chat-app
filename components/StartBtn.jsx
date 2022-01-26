@@ -19,7 +19,7 @@ export default class StartBtn extends Component {
 
 const styles = StyleSheet.create({
   startBtn: {
-    width: '88%',
+    width: '100%',
     height: 60,
     backgroundColor: "#757083",
     alignItems: 'center'
