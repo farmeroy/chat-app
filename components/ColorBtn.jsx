@@ -4,12 +4,16 @@ import { Pressable, StyleSheet } from "react-native";
 export default class ColorBtn extends Component {
   constructor(props) {
     super(props);
-  }
+      }
+
 
   render() {
     return (
       <Pressable
-        style={[styles.colorBtn, {backgroundColor: this.props.color}]}
+        style={[
+          styles.colorBtn,
+          { backgroundColor: this.props.color, borderColor: this.props.color },
+        ]}
         onPress={this.props.onPress}
       ></Pressable>
     );
