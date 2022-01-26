@@ -12,9 +12,9 @@ import image from "../assets/images/Background-Image.png";
 class Start extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       name: "",
-      chatColor: '#fff'
+      chatColor: "#fff",
     };
   }
 
@@ -33,10 +33,34 @@ class Start extends Component {
             <View style={styles.container}>
               <Text>Choose a background color:</Text>
               <View style={styles.colorChoices}>
-                <View style={[styles.color, styles.color1]} />
-                <View style={[styles.color, styles.color2]} />
-                <View style={[styles.color, styles.color3]} />
-                <View style={[styles.color, styles.color4]} />
+                <View style={[styles.color, styles.color1]}>
+                  <Button
+                    title=""
+                    style={styles.colorBtn}
+                    onPress={() => this.setState({ chatColor: "#090C08" })}
+                  />
+                </View>
+                <View style={[styles.color, styles.color2]}>
+                  <Button
+                    title=""
+                    style={styles.colorBtn}
+                    onPress={() => this.setState({ chatColor: "#474056" })}
+                  />
+                </View>
+                <View style={[styles.color, styles.color3]}>
+                  <Button
+                    title=""
+                    style={styles.colorBtn}
+                    onPress={() => this.setState({ chatColor: "#8A95A5" })}
+                  />
+                </View>
+                <View style={[styles.color, styles.color4]}>
+                  <Button
+                    title=""
+                    style={styles.colorBtn}
+                    onPress={() => this.setState({ chatColor: "#B9C6AE" })}
+                  />
+                </View>
               </View>
             </View>
             <Button
@@ -93,7 +117,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   colorChoices: {
-    width: '88%',
+    width: "88%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -119,8 +143,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     backgroundColor: "#757083",
-    flex: 1
+    flex: 1,
   },
+  button: {
+    backgroundColor: 'transparent'
+  }
 });
 
 export default Start;
