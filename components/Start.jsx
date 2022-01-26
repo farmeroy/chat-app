@@ -12,7 +12,10 @@ import image from "../assets/images/Background-Image.png";
 class Start extends Component {
   constructor(props) {
     super(props);
-    this.state = { name: "" };
+    this.state = { 
+      name: "",
+      chatColor: '#fff'
+    };
   }
 
   render() {
@@ -42,6 +45,7 @@ class Start extends Component {
               onPress={() =>
                 this.props.navigation.navigate("Chat", {
                   name: this.state.name,
+                  chatColor: this.state.chatColor,
                 })
               }
             />
