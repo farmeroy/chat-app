@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Day, SystemMessage, Bubble, GiftedChat } from "react-native-gifted-chat";
+import {
+  Day,
+  SystemMessage,
+  Bubble,
+  GiftedChat,
+} from "react-native-gifted-chat";
 import { View, Platform, KeyboardAvoidingView } from "react-native";
 
 class Chat extends Component {
@@ -10,6 +15,9 @@ class Chat extends Component {
     };
   }
   componentDidMount() {
+    let name = this.props.route.params.name;
+    this.props.navigation.setOptions({ title: name });
+
     // set our message state here
     // this will be an AJAX request to firebase,
     // best practice to perform in componentDidMount
@@ -17,7 +25,7 @@ class Chat extends Component {
       messages: [
         {
           _id: 1,
-          text: "Hello developer",
+          text: `Hello ${name}`,
           createdAt: new Date(),
           user: {
             _id: 2,
@@ -27,14 +35,12 @@ class Chat extends Component {
         },
         {
           _id: 2,
-          text: "This is a system message",
+          text: `${name} has entered the chat`,
           createdAt: new Date(),
           system: true,
         },
       ],
     });
-    let name = this.props.route.params.name;
-    this.props.navigation.setOptions({ title: name });
   }
 
   onSend(messages = []) {
