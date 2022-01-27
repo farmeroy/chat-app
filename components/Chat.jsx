@@ -43,8 +43,7 @@ class Chat extends Component {
         style={{
           backgroundColor: this.props.route.params.chatColor,
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
+          flexDirection: 'column',
         }}
       >
         <GiftedChat
