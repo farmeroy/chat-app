@@ -55,6 +55,7 @@ class Chat extends Component {
 
   componentDidMount() {
     this.setState({
+      // save the name to state for easy access 
       name:  this.props.route.params.name,
     })
     this.props.navigation.setOptions({ title: this.state.name });
@@ -109,7 +110,7 @@ class Chat extends Component {
     // send a new message to the server
     // the first message in our list is the new one
     const newMessage = this.state.messages[0];
-    console.log(newMessage)
+    // console.log(newMessage)
     this.referenceMessages.add({
       _id: newMessage._id,
       text: newMessage.text,
@@ -156,7 +157,7 @@ class Chat extends Component {
   }
 
   // function that allows custom Bubble settings
-  // target each wrapp with either right or left
+  // target each wrapper with either right or left
   renderBubble(props) {
     return (
       <Bubble
