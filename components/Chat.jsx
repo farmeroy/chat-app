@@ -135,6 +135,14 @@ class Chat extends Component {
     }
   }
 
+  async deleteLocalMessages() {
+    try {
+      await AsyncStorage.removeItem('messages');
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
   onCollectionUpdate = (querySnapshot) => {
     /**
      * Whenever the collection updates, rewrite the new collection to state.
