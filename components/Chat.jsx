@@ -7,9 +7,10 @@ import {
 } from "react-native-gifted-chat";
 import { View, Platform, KeyboardAvoidingView } from "react-native";
 //FIREBASE
-import firebase from 'firebase';
-import 'firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import firebase from "firebase";
+import "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
 
 const firebaseConfig = {
   apiKey: "AIzaSyC7EgxkPoRr-ZiWGzz3NTX9FdaMxsYd4UU",
@@ -44,7 +45,8 @@ class Chat extends Component {
     this.state = {
       messages: [],
       uid: null,
-      name: ''
+      name: "",
+      isOnline: false,
     };
     //connects to the database
     if (!firebase.apps.length) {
@@ -56,43 +58,54 @@ class Chat extends Component {
 
   componentDidMount() {
     this.setState({
-      // save the name to state for easy access 
-      name:  this.props.route.params.name,
-    })
+      // save the name to state for easy access
+      name: this.props.route.params.name,
+    });
     this.props.navigation.setOptions({ title: this.state.name });
 
     // set our message state here
     // this will be an AJAX request to firebase,
     // best practice to perform in componentDidMount
     // signs the user in anonymously and loads in messages from database
-    this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-      if (!user) {
-        firebase.auth().signInAnonymously();
+    NetInfo.fetch().then((connection) => {
+      if (connection.isConnected) {
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          this.setState({
+            uid: user.uid,
+            messages: [],
+            isOnline: true,
+          });
+          this.unsubscribe = this.referenceMessages
+            .orderBy("createdAt", "desc")
+            .onSnapshot(this.onCollectionUpdate);
+        });
+      } else {
+        this.setState({
+          messages: [this.getLocalMessages()],
+          isOnline: false,
+        });
       }
-      this.setState({
-        uid: user.uid,
-        messages: [],
-      });
-      this.unsubscribe = this.referenceMessages
-        .orderBy("createdAt", "desc")
-        .onSnapshot(this.onCollectionUpdate);
     });
   }
 
-
   componentWillUnmount() {
     // close connections when we close the app
-    this.unsubscribe();
-    this.authUnsubscribe();
+    if (this.state.isOnline) {
+      this.unsubscribe();
+      this.authUnsubscribe();
+    }
   }
 
+  // returns a json object containing local messages
   async getLocalMessages() {
-    let messages ='';
+    let messages = [];
     try {
-      messages = await AsyncStorage.getItem('messages') || [];
-      this.setState({
-        messages: JSON.parse(messages)
-      });
+      messages = (await AsyncStorage.getItem("messages")) || [];
+      console.log(messages);
+      return JSON.parse(messages);
     } catch (error) {
       console.log(error.message);
     }
@@ -100,12 +113,14 @@ class Chat extends Component {
 
   async saveLocalMessages() {
     try {
-      await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+      await AsyncStorage.setItem(
+        "messages",
+        JSON.stringify(this.state.messages)
+      );
     } catch (error) {
       console.log(error.message);
     }
   }
-
 
   onCollectionUpdate = (querySnapshot) => {
     /**
@@ -148,11 +163,17 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
-    this.setState((previousState) => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }), () => {
-      this.addMessage();
-    });
+    this.setState(
+      (previousState) => ({
+        messages: GiftedChat.append(previousState.messages, messages),
+      }),
+      () => {
+        // add messages to firebase
+        this.addMessage();
+        // save to local storage
+        this.saveLocalMessages();
+      }
+    );
   }
 
   // custom setting for the <Day/> message
@@ -194,8 +215,14 @@ class Chat extends Component {
     );
   }
 
-  render() {
+  renderInputToolbar(props) {
+    if (!this.state.isConnected) {
+    } else {
+      return <InputToolbar {...props} />;
+    }
+  }
 
+  render() {
     return (
       <View
         style={{
@@ -213,7 +240,7 @@ class Chat extends Component {
           user={{
             _id: this.state.uid,
             name: this.state.name,
-            avatar: 'https://placeimg.com/140/140/any',
+            avatar: "https://placeimg.com/140/140/any",
           }}
         />
         {/* fix for older android systems */}
