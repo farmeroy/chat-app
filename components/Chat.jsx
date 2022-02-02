@@ -9,6 +9,7 @@ import { View, Platform, KeyboardAvoidingView } from "react-native";
 //FIREBASE
 import firebase from 'firebase';
 import 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC7EgxkPoRr-ZiWGzz3NTX9FdaMxsYd4UU",
@@ -78,11 +79,33 @@ class Chat extends Component {
     });
   }
 
+
   componentWillUnmount() {
     // close connections when we close the app
     this.unsubscribe();
     this.authUnsubscribe();
   }
+
+  async getLocalMessages() {
+    let messages ='';
+    try {
+      messages = await AsyncStorage.getItem('messages') || [];
+      this.setState({
+        messages: JSON.parse(messages)
+      });
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  async saveLocalMessages() {
+    try {
+      await AsyncStorage.setItem('messages', JSON.stringify(this.state.messages));
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
 
   onCollectionUpdate = (querySnapshot) => {
     /**
