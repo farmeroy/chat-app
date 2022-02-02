@@ -52,8 +52,9 @@ class Chat extends Component {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
       // creates a reference to my collection
-      this.referenceMessages = firebase.firestore().collection("messages");
     }
+
+    this.referenceMessages = firebase.firestore().collection("messages");
   }
 
   componentDidMount() {
@@ -70,27 +71,31 @@ class Chat extends Component {
     NetInfo.fetch().then((connection) => {
       if (connection.isConnected) {
         //connects to the database
-        console.log('online')
-        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
-          if (!user) {
-            firebase.auth().signInAnonymously();
-          }
-          this.setState({
-            uid: user.uid,
-            messages: [],
-            isOnline: true,
+        console.log("online");
+        this.authUnsubscribe = firebase
+          .auth()
+          .onAuthStateChanged((user) => {
+            if (!user) {
+              firebase.auth().signInAnonymously();
+            }
+            this.setState({
+              uid: user.uid,
+              messages: [],
+              isOnline: true,
+            });
+
+            this.unsubscribe = this.referenceMessages
+              .orderBy("createdAt", "desc")
+              .onSnapshot(this.onCollectionUpdate);
           });
-          this.unsubscribe = this.referenceMessages
-            .orderBy("createdAt", "desc")
-            .onSnapshot(this.onCollectionUpdate);
-        });
-        this.saveLocalMessages();
-      } else {
+              } else {
         console.log("offline");
+        this.getLocalMessages();
         this.setState({
-          messages: [this.getLocalMessages()],
           isOnline: false,
+          // messages: [this.getLocalMessages()],
         });
+        // console.log(this.state)
       }
     });
   }
@@ -110,7 +115,10 @@ class Chat extends Component {
     let messages = [];
     try {
       messages = (await AsyncStorage.getItem("messages")) || [];
-      return JSON.parse(messages);
+      // return JSON.parse(messages);
+      this.setState({
+        messages: JSON.parse(messages) 
+      })
     } catch (error) {
       console.log(error.message);
     }
@@ -147,6 +155,11 @@ class Chat extends Component {
     this.setState({
       messages,
     });
+  this.saveLocalMessages();
+        // AsyncStorage.getItem("messages").then((testMessages) =>
+        //   console.log(testMessages)
+        // );
+
   };
 
   addMessage() {
@@ -221,9 +234,10 @@ class Chat extends Component {
   }
 
   renderInputToolbar(props) {
-    if (!this.state.isOnline) {
-    } else {
+    if (this.state.isOnline) {
       return <InputToolbar {...props} />;
+    } else {
+      return <></>;
     }
   }
 
