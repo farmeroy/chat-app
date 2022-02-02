@@ -68,9 +68,9 @@ class Chat extends Component {
     // best practice to perform in componentDidMount
     // signs the user in anonymously and loads in messages from database
     NetInfo.fetch().then((connection) => {
-      if (connection.isConnected === true) {
+      if (connection.isConnected) {
         //connects to the database
-
+        console.log('online')
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
           if (!user) {
             firebase.auth().signInAnonymously();
@@ -84,7 +84,7 @@ class Chat extends Component {
             .orderBy("createdAt", "desc")
             .onSnapshot(this.onCollectionUpdate);
         });
-        this.saveMessages();
+        this.saveLocalMessages();
       } else {
         console.log("offline");
         this.setState({
@@ -147,7 +147,6 @@ class Chat extends Component {
     this.setState({
       messages,
     });
-    console.log(messages);
   };
 
   addMessage() {
