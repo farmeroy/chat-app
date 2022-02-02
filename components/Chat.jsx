@@ -4,6 +4,7 @@ import {
   SystemMessage,
   Bubble,
   GiftedChat,
+  InputToolbar,
 } from "react-native-gifted-chat";
 import { View, Platform, KeyboardAvoidingView } from "react-native";
 //FIREBASE
@@ -48,7 +49,6 @@ class Chat extends Component {
       name: "",
       isOnline: false,
     };
-    //connects to the database
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
       // creates a reference to my collection
@@ -68,7 +68,9 @@ class Chat extends Component {
     // best practice to perform in componentDidMount
     // signs the user in anonymously and loads in messages from database
     NetInfo.fetch().then((connection) => {
-      if (connection.isConnected) {
+      if (connection.isConnected === true) {
+        //connects to the database
+
         this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
           if (!user) {
             firebase.auth().signInAnonymously();
@@ -82,7 +84,9 @@ class Chat extends Component {
             .orderBy("createdAt", "desc")
             .onSnapshot(this.onCollectionUpdate);
         });
+        this.saveMessages();
       } else {
+        console.log("offline");
         this.setState({
           messages: [this.getLocalMessages()],
           isOnline: false,
@@ -93,10 +97,12 @@ class Chat extends Component {
 
   componentWillUnmount() {
     // close connections when we close the app
-    if (this.state.isOnline) {
-      this.unsubscribe();
-      this.authUnsubscribe();
-    }
+    NetInfo.fetch().then((connection) => {
+      if (connection.isConnected) {
+        this.unsubscribe();
+        this.authUnsubscribe();
+      }
+    });
   }
 
   // returns a json object containing local messages
@@ -104,7 +110,6 @@ class Chat extends Component {
     let messages = [];
     try {
       messages = (await AsyncStorage.getItem("messages")) || [];
-      console.log(messages);
       return JSON.parse(messages);
     } catch (error) {
       console.log(error.message);
@@ -142,6 +147,7 @@ class Chat extends Component {
     this.setState({
       messages,
     });
+    console.log(messages);
   };
 
   addMessage() {
@@ -169,7 +175,7 @@ class Chat extends Component {
       }),
       () => {
         // add messages to firebase
-        this.addMessage();
+        this.state.isOnline && this.addMessage();
         // save to local storage
         this.saveLocalMessages();
       }
@@ -216,7 +222,7 @@ class Chat extends Component {
   }
 
   renderInputToolbar(props) {
-    if (!this.state.isConnected) {
+    if (!this.state.isOnline) {
     } else {
       return <InputToolbar {...props} />;
     }
@@ -232,13 +238,14 @@ class Chat extends Component {
         }}
       >
         <GiftedChat
+          renderInputToolbar={this.renderInputToolbar.bind(this)}
           renderBubble={this.renderBubble.bind(this)}
           renderDay={this.renderDay.bind(this)}
           renderSystemMessage={this.renderSystemMessage.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
-            _id: this.state.uid,
+            _id: this.state.isOnline ? this.state.uid : "",
             name: this.state.name,
             avatar: "https://placeimg.com/140/140/any",
           }}
