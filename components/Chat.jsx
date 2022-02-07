@@ -177,10 +177,11 @@ class Chat extends Component {
     // send a new message to the server
     // the first message in our list is the new one
     const newMessage = this.state.messages[0];
+    console.log(newMessage.location)
     // console.log(newMessage)
     this.referenceMessages.add({
       _id: newMessage._id,
-      text: newMessage.text,
+      text: newMessage.text || '',
       createdAt: newMessage.createdAt,
       user: {
         _id: this.state.uid,
@@ -193,6 +194,7 @@ class Chat extends Component {
   }
 
   onSend(messages = []) {
+    console.log(messages)
     this.setState(
       (previousState) => ({
         messages: GiftedChat.append(previousState.messages, messages),
@@ -257,6 +259,7 @@ class Chat extends Component {
     return <CustomActions {...props} />;
   }
 
+  // Get the lat/lon from the current message and render the component conditionally (see the render function)
   renderCustomView(props) {
     const { currentMessage } = props;
     if (currentMessage.location) {
@@ -297,7 +300,7 @@ class Chat extends Component {
           renderActions={this.renderCustomActions.bind(this)}
           renderCustomView={this.renderCustomView}
           messages={this.state.messages}
-          onSend={(messages) => this.onSend(messages).bind(this)}
+          onSend={(messages) => this.onSend(messages)}
           user={{
             _id: this.state.isOnline ? this.state.uid : "",
             name: this.state.name,
