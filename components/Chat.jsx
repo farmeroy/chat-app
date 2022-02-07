@@ -6,8 +6,10 @@ import {
   GiftedChat,
   InputToolbar,
 } from "react-native-gifted-chat";
-import CustomActions from './CustomActions';
+import CustomActions from "./CustomActions";
 import { View, Platform, KeyboardAvoidingView } from "react-native";
+import MapView from "react-native-maps";
+
 //FIREBASE
 import firebase from "firebase";
 import "firebase/firestore";
@@ -73,23 +75,21 @@ class Chat extends Component {
       if (connection.isConnected) {
         //connects to the database
         console.log("online");
-        this.authUnsubscribe = firebase
-          .auth()
-          .onAuthStateChanged((user) => {
-            if (!user) {
-              firebase.auth().signInAnonymously();
-            }
-            this.setState({
-              uid: user.uid,
-              messages: [],
-              isOnline: true,
-            });
-
-            this.unsubscribe = this.referenceMessages
-              .orderBy("createdAt", "desc")
-              .onSnapshot(this.onCollectionUpdate);
+        this.authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
+          if (!user) {
+            firebase.auth().signInAnonymously();
+          }
+          this.setState({
+            uid: user.uid,
+            messages: [],
+            isOnline: true,
           });
-              } else {
+
+          this.unsubscribe = this.referenceMessages
+            .orderBy("createdAt", "desc")
+            .onSnapshot(this.onCollectionUpdate);
+        });
+      } else {
         console.log("offline");
         this.getLocalMessages();
         this.setState({
@@ -118,8 +118,8 @@ class Chat extends Component {
       messages = (await AsyncStorage.getItem("messages")) || [];
       // return JSON.parse(messages);
       this.setState({
-        messages: JSON.parse(messages) 
-      })
+        messages: JSON.parse(messages),
+      });
     } catch (error) {
       console.log(error.message);
     }
@@ -138,9 +138,9 @@ class Chat extends Component {
 
   async deleteLocalMessages() {
     try {
-      await AsyncStorage.removeItem('messages');
+      await AsyncStorage.removeItem("messages");
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
   }
 
@@ -164,11 +164,10 @@ class Chat extends Component {
     this.setState({
       messages,
     });
-  this.saveLocalMessages();
-        // AsyncStorage.getItem("messages").then((testMessages) =>
-        //   console.log(testMessages)
-        // );
-
+    this.saveLocalMessages();
+    // AsyncStorage.getItem("messages").then((testMessages) =>
+    //   console.log(testMessages)
+    // );
   };
 
   addMessage() {
@@ -254,6 +253,29 @@ class Chat extends Component {
     return <CustomActions {...props} />;
   }
 
+  renderCustomView(props) {
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3,
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
+
   render() {
     return (
       <View
@@ -269,6 +291,7 @@ class Chat extends Component {
           renderDay={this.renderDay.bind(this)}
           renderSystemMessage={this.renderSystemMessage.bind(this)}
           renderActions={this.renderCustomActions.bind(this)}
+          renderCustomView={this.renderCustomView}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
