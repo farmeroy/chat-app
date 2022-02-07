@@ -1,5 +1,6 @@
 # React-Native Chat App
--This is a chat app built in react-native. -
+
+### This is a chat app built in react-native. 
 - Allows user to send messages to other users
 - Allows user to send images 
 - Allows user to share location
