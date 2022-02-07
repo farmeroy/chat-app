@@ -34,7 +34,7 @@ export default class CustomActions extends Component {
               return;
             case 1:
               console.log("take a photo");
-              return;
+              return this.takePhoto();
             case 2:
               console.log("share location");
               return this.getLocation();
@@ -68,7 +68,7 @@ export default class CustomActions extends Component {
   };
 
   takePhoto = async () => {
-    const { status } = await ImagePicker.requestCameraPerissionsAsync();
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
     try {
       if (status === "granted") {
         const result = await ImagePicker.launchCameraAsync({
