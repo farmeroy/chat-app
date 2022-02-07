@@ -8,8 +8,8 @@
 - Allows users with visual impairment to use a chat app that is compatible with a screen reader
 
 ## Technologies
--This was developed using:-
--React Native
--Expo and Expo Go
--Gifted Chat
+### This was developed using:
+- React Native
+- Expo and Expo Go
+- Gifted Chat
 Firebase is the backend for storing chat data. 
