@@ -29,8 +29,9 @@ Clone the reop:
 `git clone https://github.com/farmeroy/chat-app.git`
 
 In the Chat-App directory, install the project dependencies:
+*(note, this project needs specific dependencies so we will install from the package-lock.json)*
 
-`npm install`
+`npm ci`
 
 Start up the server:
 
