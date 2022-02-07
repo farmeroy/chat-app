@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import * as ImagePicker from "expo-image-picker";
 import PropTypes from "prop-types";
+import firebase from "firebase";
+import "firebase/firestore";
 import {
   ActionSheetIOS,
   View,
@@ -89,10 +92,10 @@ export default class CustomActions extends Component {
   uploadImage = async (uri) => {
     const imgBlob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
+      xhr.onload = function () {
         resolve(xhr.response);
       };
-      xhr.onerror = (e) => {
+      xhr.onerror = function (e) {
         console.log(e);
         reject(new TypeError('Network request failed'));
       };
@@ -100,15 +103,27 @@ export default class CustomActions extends Component {
       xhr.open("GET", uri, true);
       xhr.send(null);
     });
+
     
     const imageNameBefore = uri.split('/');
-    const imageName = imageNameBefore[imageNameBefore.length -1];
-    const ref = firedbase.storage().ref().child(`images/${imageName}`);
+    const imageName = imageNameBefore[imageNameBefore.length - 1];
+    try{
+
+    let ref = firebase.storage().ref().child(`images/${imageName}`);
+    console.log('blob:', typeof imgBlob)  
     const snapshot = await ref.put(imgBlob);
 
     imgBlob.close();
     return await snapshot.ref.getDownloadURL();
+
+    } catch (error){
+      console.log('error:',error)
+      
+    }
+    imgBlob.close();
+
   }
+
   render() {
     return (
       <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
