@@ -24,7 +24,7 @@ You will have to install expo globally:
 
 `npm install --global expo-cli`
 
-Clone the reop:
+Clone the repo:
 
 `git clone https://github.com/farmeroy/chat-app.git`
 
