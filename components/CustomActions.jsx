@@ -66,11 +66,11 @@ export default class CustomActions extends Component {
       console.error(error);
     }
   };
-  
+
   takePhoto = async () => {
     const { status } = await ImagePicker.requestCameraPerissionsAsync();
     try {
-      if (status === 'granted') {
+      if (status === "granted") {
         const result = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.All,
         }).catch((error) => {
@@ -84,7 +84,30 @@ export default class CustomActions extends Component {
     } catch (error) {
       console.error(error);
     }
+  };
 
+  uploadImage = async (uri) => {
+    const imgBlob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        resolve(xhr.response);
+      };
+      xhr.onerror = (e) => {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+    
+    const imageNameBefore = uri.split('/');
+    const imageName = imageNameBefore[imageNameBefore.length -1];
+    const ref = firedbase.storage().ref().child(`images/${imageName}`);
+    const snapshot = await ref.put(imgBlob);
+
+    imgBlob.close();
+    return await snapshot.ref.getDownloadURL();
   }
   render() {
     return (
