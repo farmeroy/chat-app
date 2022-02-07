@@ -34,7 +34,7 @@ export default class CustomActions extends Component {
           switch (buttonIndex) {
             case 0:
               console.log("pick an image");
-              return;
+              return this.sendPhoto();
             case 1:
               console.log("take a photo");
               return this.takePhoto();
@@ -47,8 +47,28 @@ export default class CustomActions extends Component {
       );
   };
 
+    sendPhoto = async () => {
+    // expo permission
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    try {
+      if (status === "granted") {
+        // pick image
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images, // only images are allowed
+        }).catch((error) => console.log(error));
+        // canceled process
+        if (!result.cancelled) {
+          const imageUrl = await this.uploadImageFetch(result.uri);
+          this.props.onSend({ image: imageUrl });
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   getLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
     try {
       if (status === "granted") {
         const result = await Location.getCurrentPositionAsync({}).catch(
