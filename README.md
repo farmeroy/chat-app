@@ -1,14 +1,14 @@
 # React-Native Chat App
-<ul>This is a chat app built in react-native. </ul>
-<li> Allows user to send messages to other users</li>
-<li> Allows user to send images </li>
-<li> Allows user to share location</li>
-<li> Allows user to be able to read messages offline </li>
-<li> Allows users with visual impairment to use a chat app that is compatible with a screen reader</li>
+-This is a chat app built in react-native. -
+- Allows user to send messages to other users
+- Allows user to send images 
+- Allows user to share location
+- Allows user to be able to read messages offline 
+- Allows users with visual impairment to use a chat app that is compatible with a screen reader
 
-<h2>Technologies</h2>
-<ul>This was developed using:</ul>
-<li>React Native</li>
-<li>Expo and Expo Go</li>
-<li>Gifted Chat</li>
+## Technologies
+-This was developed using:-
+-React Native
+-Expo and Expo Go
+-Gifted Chat
 Firebase is the backend for storing chat data. 
