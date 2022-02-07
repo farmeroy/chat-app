@@ -1,42 +1,44 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ActionSheetIOS, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 export default class CustomActions extends Component {
   constructor(props) {
     super(props);
   }
 
-  onActionPress() {
+  onActionPress = () => {
     const options = [
-      'Choose From Library', 'Take Picture',
-      'Send Location', 'Cancel',
+      "Choose From Library",
+      "Take Picture",
+      "Send Location",
+      "Cancel",
     ];
-    const cancelButtonIndex = options.length -1;
-    this.context.actionSheet().showActionSheetWithOptions(
-      {options,
-        cancelButtonIndex,
-      },
-      async (buttonIndex) => {
-        switch (buttonIndex) {
-          case 0:
-            console.log('pick an image');
-            return;
-          case 1:
-            console.log('take a photo');
-            return;
-          case 2:
-            console.log('share location');
-            return;
-          default:
-
+    const cancelButtonIndex = options.length - 1;
+    ActionSheetIOS.showActionSheetWithOptions(
+        { options, cancelButtonIndex },
+        async (buttonIndex) => {
+          switch (buttonIndex) {
+            case 0:
+              console.log("pick an image");
+              return;
+            case 1:
+              console.log("take a photo");
+              return;
+            case 2:
+              console.log("share location");
+              return;
+            default:
+          }
         }
-      },
-    );
+      );
   }
 
   render() {
     return (
-      <TouchableOpacity style={[styles.container]} onPress={this.onActionPress.bind(this)}>
+      <TouchableOpacity
+        style={[styles.container]}
+        onPress={this.onActionPress}
+      >
         <View style={[styles.wrapper, this.props.wrapperStyel]}>
           <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
         </View>
@@ -66,3 +68,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
+

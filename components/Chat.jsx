@@ -268,7 +268,7 @@ class Chat extends Component {
           renderBubble={this.renderBubble.bind(this)}
           renderDay={this.renderDay.bind(this)}
           renderSystemMessage={this.renderSystemMessage.bind(this)}
-          renderActions={this.renderCustomActions}
+          renderActions={this.renderCustomActions.bind(this)}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
