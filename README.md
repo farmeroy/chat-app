@@ -1,4 +1,4 @@
-<h1>React-Native Chat App</h1>
+# React-Native Chat App
 <ul>This is a chat app built in react-native. </ul>
 <li> Allows user to send messages to other users</li>
 <li> Allows user to send images </li>
