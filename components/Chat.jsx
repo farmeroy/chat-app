@@ -189,6 +189,7 @@ class Chat extends Component {
         avatar: "https://placeimg.com/140/140/any",
       },
       location: newMessage.location || null, 
+      image: newMessage.image || null,
       uid: this.state.uid,
     });
   }
