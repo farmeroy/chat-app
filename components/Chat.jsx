@@ -160,6 +160,7 @@ class Chat extends Component {
         text: data.text,
         createdAt: data.createdAt.toDate(),
         user: data.user,
+        image: data.image || null,
         location: data.location || null,
         uid: this.state.uid,
       });
