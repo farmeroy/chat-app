@@ -6,6 +6,7 @@ import {
   GiftedChat,
   InputToolbar,
 } from "react-native-gifted-chat";
+import CustomActions from './CustomActions';
 import { View, Platform, KeyboardAvoidingView } from "react-native";
 //FIREBASE
 import firebase from "firebase";
@@ -249,6 +250,10 @@ class Chat extends Component {
     }
   }
 
+  renderCustomActions(props) {
+    return <CustomActions {...props} />;
+  }
+
   render() {
     return (
       <View
@@ -263,6 +268,7 @@ class Chat extends Component {
           renderBubble={this.renderBubble.bind(this)}
           renderDay={this.renderDay.bind(this)}
           renderSystemMessage={this.renderSystemMessage.bind(this)}
+          renderActions={this.renderCustomActions}
           messages={this.state.messages}
           onSend={(messages) => this.onSend(messages)}
           user={{
