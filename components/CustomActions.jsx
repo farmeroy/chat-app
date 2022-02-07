@@ -66,7 +66,26 @@ export default class CustomActions extends Component {
       console.error(error);
     }
   };
+  
+  takePhoto = async () => {
+    const { status } = await ImagePicker.requestCameraPerissionsAsync();
+    try {
+      if (status === 'granted') {
+        const result = await ImagePicker.launchCameraAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.All,
+        }).catch((error) => {
+          console.error(error);
+        });
+        if (!result.cancelled) {
+          const imageUrl = await this.uploadImage(result.uri);
+          this.props.onSend({ image: imageUrl });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
+  }
   render() {
     return (
       <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
