@@ -51,6 +51,8 @@ class Chat extends Component {
       uid: null,
       name: "",
       isOnline: false,
+      image: null,
+      location: null
     };
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
@@ -158,6 +160,7 @@ class Chat extends Component {
         text: data.text,
         createdAt: data.createdAt.toDate(),
         user: data.user,
+        location: data.location || null,
         uid: this.state.uid,
       });
     });
@@ -184,6 +187,7 @@ class Chat extends Component {
         name: this.state.name,
         avatar: "https://placeimg.com/140/140/any",
       },
+      location: newMessage.location || null, 
       uid: this.state.uid,
     });
   }
@@ -293,7 +297,7 @@ class Chat extends Component {
           renderActions={this.renderCustomActions.bind(this)}
           renderCustomView={this.renderCustomView}
           messages={this.state.messages}
-          onSend={(messages) => this.onSend(messages)}
+          onSend={(messages) => this.onSend(messages).bind(this)}
           user={{
             _id: this.state.isOnline ? this.state.uid : "",
             name: this.state.name,
