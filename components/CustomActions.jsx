@@ -1,5 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import { ActionSheetIOS, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+
+
 
 export default class CustomActions extends Component {
   constructor(props) {
@@ -14,7 +17,8 @@ export default class CustomActions extends Component {
       "Cancel",
     ];
     const cancelButtonIndex = options.length - 1;
-    ActionSheetIOS.showActionSheetWithOptions(
+    // ActionSheetIOS.showActionSheetWithOptions(
+    this.context.actionSheet().showActionSheetWithOptions(
         { options, cancelButtonIndex },
         async (buttonIndex) => {
           switch (buttonIndex) {
@@ -69,3 +73,6 @@ const styles = StyleSheet.create({
   },
 });
 
+CustomActions.contextTypes = {
+  actionSheet: PropTypes.func
+}
