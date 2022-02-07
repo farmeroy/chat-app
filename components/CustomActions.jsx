@@ -49,7 +49,7 @@ export default class CustomActions extends Component {
 
     sendPhoto = async () => {
     // expo permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
     try {
       if (status === "granted") {
         // pick image
@@ -58,7 +58,7 @@ export default class CustomActions extends Component {
         }).catch((error) => console.log(error));
         // canceled process
         if (!result.cancelled) {
-          const imageUrl = await this.uploadImageFetch(result.uri);
+          const imageUrl = await this.uploadImage(result.uri);
           this.props.onSend({ image: imageUrl });
         }
       }
@@ -68,7 +68,8 @@ export default class CustomActions extends Component {
   };
 
   getLocation = async () => {
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+
+    const { status } = await Location.requestForegroundPermissionsAsync();
     try {
       if (status === "granted") {
         const result = await Location.getCurrentPositionAsync({}).catch(
