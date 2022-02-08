@@ -47,7 +47,7 @@ export default class CustomActions extends Component {
       );
   };
 
-    sendPhoto = async () => {
+  sendPhoto = async () => {
     // expo permission
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
     try {
@@ -68,7 +68,6 @@ export default class CustomActions extends Component {
   };
 
   getLocation = async () => {
-
     const { status } = await Location.requestForegroundPermissionsAsync();
     try {
       if (status === "granted") {
@@ -118,36 +117,37 @@ export default class CustomActions extends Component {
       };
       xhr.onerror = function (e) {
         console.log(e);
-        reject(new TypeError('Network request failed'));
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
+      xhr.responseType = "blob";
       xhr.open("GET", uri, true);
       xhr.send(null);
     });
 
-    
-    const imageNameBefore = uri.split('/');
+    const imageNameBefore = uri.split("/");
     const imageName = imageNameBefore[imageNameBefore.length - 1];
-    try{
+    try {
+      let ref = firebase.storage().ref().child(`images/${imageName}`);
+      console.log("blob:", typeof imgBlob);
+      const snapshot = await ref.put(imgBlob);
 
-    let ref = firebase.storage().ref().child(`images/${imageName}`);
-    console.log('blob:', typeof imgBlob)  
-    const snapshot = await ref.put(imgBlob);
-
-    imgBlob.close();
-    return await snapshot.ref.getDownloadURL();
-
-    } catch (error){
-      console.log('error:',error)
-      
+      imgBlob.close();
+      return await snapshot.ref.getDownloadURL();
+    } catch (error) {
+      console.log("error:", error);
     }
     imgBlob.close();
-
-  }
+  };
 
   render() {
     return (
-      <TouchableOpacity style={[styles.container]} onPress={this.onActionPress}>
+      <TouchableOpacity
+        accessible={true}
+        accessibilityLabel="More options"
+        accessibilityHint="Let’s you choose to send an image or your geolocation."
+        style={[styles.container]}
+        onPress={this.onActionPress}
+      >
         <View style={[styles.wrapper, this.props.wrapperStyel]}>
           <Text style={[styles.iconText, this.props.iconTextStyle]}>+</Text>
         </View>
