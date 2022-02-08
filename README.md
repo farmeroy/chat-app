@@ -10,7 +10,7 @@
 ## Technologies
 
 ### This was developed using:
-- Create React App
+
 - React-Native
 - Expo and Expo Go
 - Gifted-Chat
@@ -29,6 +29,7 @@ Clone the repo:
 `git clone https://github.com/farmeroy/chat-app.git`
 
 In the Chat-App directory, install the project dependencies:
+
 *(note, this project needs specific dependencies so we will install from the package-lock.json)*
 
 `npm ci`
