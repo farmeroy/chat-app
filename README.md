@@ -30,9 +30,9 @@ Clone the repo:
 
 In the Chat-App directory, install the project dependencies:
 
-*(note, this project needs specific dependencies so we will install from the package-lock.json)*
-
 `npm ci`
+
+*(note, this project needs specific dependencies so we will install from the package-lock.json)*
 
 Start up the server:
 
