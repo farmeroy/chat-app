@@ -10,6 +10,9 @@ export default class ColorBtn extends Component {
     return (
       <TouchableOpacity
         // android_ripple={{color: 'white'}}
+        accessible={true}
+  accessibilityLabel="background color"
+  accessibilityHint="Let’s you choose a background color for the chat screen."
         style={[
           styles.colorBtn,
           { backgroundColor: this.props.color, borderColor: this.props.color },
